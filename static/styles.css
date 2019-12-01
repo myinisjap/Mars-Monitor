@@ -1,0 +1,115 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+button {
+    border-radius: .25em;
+}
+
+.button_div {
+    overflow: hidden;
+    display: flex;
+    margin: 1em;
+    align-items: center;
+    justify-content: center;
+}
+
+.button_div button {
+    margin: 0 1em 0 1em;
+}
+
+.widget {
+    border: solid black thin;
+    padding: 1em;
+    border-radius: .5em;
+    overflow-x: hidden;
+    min-height: 366px;
+    background-color: white;
+}
+
+.widget_resizable {
+    margin: 20px;
+    float: left;
+}
+
+.add_widget_pop {
+    width: 200px;
+    height: 350px;
+    border: solid black thin;
+    margin: 1em;
+    padding: 1em;
+    display: none;
+    z-index: 1000;
+}
+
+.ul_sort li {
+    margin: 3px 3px 3px 0;
+    padding: 1px;
+    float: left;
+    text-align: center;
+}
+
+.ul_sort {
+    overflow: hidden;
+}
+
+/* Popup container */
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* The actual popup (appears on top) */
+.popuptext {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 1em;
+    z-index: 1;
+    left: 50%;
+    margin-left: -80px;
+    position: fixed;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.show {
+    visibility: visible;
+    -webkit-animation: fadeIn .5s;
+    animation: fadeIn .5s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.file_select {
+    width: 100%;
+}
+
+.file_table, .file_table td {
+    border: solid thin;
+    border-collapse: collapse;
+}
