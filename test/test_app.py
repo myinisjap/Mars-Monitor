@@ -12,4 +12,4 @@ from app import udp_connect
 
 
 def test_udp_connect():
-    assert udp_connect('1', 'M30') == {'status': 'fail', 'data': 'Connection timed out'}
+    assert udp_connect('1', 's') == {'status': 'fail', 'data': 'Connection timed out'}
