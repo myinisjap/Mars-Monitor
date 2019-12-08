@@ -8,11 +8,40 @@ $(function () {
     });
     $(".ul_sort").sortable({});
     $(".ul_sort").disableSelection();
+    // $( ".pbar" ).progressbar({
+    //   value: 50}).children("span").appendTo(this);
 });
 
 function add_widget() {
     var popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
+}
+
+function delete_widget(printer_name) {
+    $.post("/remove_widget", {'printer_name': printer_name}, function (data) {
+        if (data['status'] === 'success') {
+            location.reload()
+        }
+    })
+}
+
+function create_widget(printer_name, ip_address) {
+    if (printer_name[0].value !== '' && ip_address[0].value !== '') {
+        $.post("/add_widget", {
+            'printer_name': printer_name[0].value,
+            'ip_address': ip_address[0].value
+        }, function (data) {
+            if (data['status'] === 'success') {
+                location.reload()
+            }
+        })
+    } else {
+        if (printer_name[0].value === '') {
+            $('[name="printer_name"]').css('background-color', 'red')
+        } else if (ip_address[0].value === '') {
+            $('[name="ip_address"]').css('background-color', 'red')
+        }
+    }
 }
 
 function set_file_list(select_id, ip_address) {
@@ -21,9 +50,7 @@ function set_file_list(select_id, ip_address) {
         select.removeChild(select.firstChild);
     }
     $.post("/file_list", {'ip_address': ip_address}, function (data) {
-        console.log(data);
         $.each(data, function () {
-            console.log(this.file);
             var opt = document.createElement('option');
             opt.value = this.file;
             opt.innerHTML = this.file;
@@ -32,15 +59,11 @@ function set_file_list(select_id, ip_address) {
     })
 }
 
-var ws = new WebSocket("ws://localhost:8000/ws");
+let ws = new WebSocket("ws://localhost:8000/ws");
 ws.onmessage = function (event) {
-    // console.log(event.data);
-    // console.log(JSON.parse(event.data));
     var data = JSON.parse(event.data);
     for (var d in data) {
         for (var i in data[d]) {
-            console.log(i);
-            console.log(data[d][i]);
             var select_id = i;
             var val = data[d][i];
             var select = document.getElementById(select_id);
@@ -56,21 +79,24 @@ ws.onmessage = function (event) {
         }
     }
 };
-// console.log(data.key);
-//  $.each(data, function() {
-//      console.log(this.key);
-//      console.log(this.value)
-//  })
-// // var messages = document.getElementById('messages')
-// var message = document.createElement('li')
-// var content = document.createTextNode(event.data)
-// message.appendChild(content)
-// messages.appendChild(message)
+
+//$("#ww3t_progressbar").progressbar({value: 75}).children("span").html("75%")
+var ws_progress = new WebSocket("ws://localhost:8000/ws_progress");
+ws_progress.onmessage = function (event) {
+    var data = JSON.parse(event.data);
+    for (var d in data) {
+        if (data[d]['percent'] === "false") {
+            $('#' + data[d]['id']).progressbar({value: false}).children("span").html(data[d]['text'])
+        } else {
+            $('#' + data[d]['id']).progressbar({value: data[d]['percent']}).children("span").html(data[d]['text'])
+        }
+    }
+};
 
 function sendMessage(data) {
     // var ws = new WebSocket("ws://localhost:8000/ws");
     // var input = document.getElementById("messageText")
-    ws.send(data);
+    ws.send(JSON.stringify(data));
     // input.value = ''
     // event.preventDefault()
 }

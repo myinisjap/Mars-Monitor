@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Mars_Monitor</title>
-    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+
     <link rel="stylesheet" href="/static/jquery-ui.min.css">
     <script src="/static/external/jquery/jquery.js"></script>
     <script src="/static/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
     {#    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/styles.css') }}">#}
 </head>
 <body>
@@ -16,21 +17,21 @@
     <button onclick="add_widget()" style="font-size: large; margin: 1em 0 0 0;">Add a new printer!</button>
 </div>
 <div class="popuptext" id="myPopup">
-    <form action="/add_widget" method="post">
+<!--    <form action="/add_widget" method="post">-->
         <h1>ADD A NEW PRINTER</h1>
         <table>
             <tr>
                 <td>Printer Name</td>
-                <td><input name="printer_name"></td>
+                <td><input required name="printer_name"></td>
             </tr>
 
             <tr>
                 <td>IP Address</td>
-                <td><input name="ip_address"></td>
+                <td><input required name="ip_address"></td>
             </tr>
         </table>
-        <button>Submit</button>
-    </form>
+        <button onclick="create_widget(document.getElementsByName('printer_name'), document.getElementsByName('ip_address'))">Submit</button>
+<!--    </form>-->
 </div>
 
 <div class="flex_container">
@@ -41,16 +42,16 @@
                     <div class="widget">
                         <div>
                             <h1 style="display: inline" title="{{ i.printer_name }}">{{ i.printer_name }}</h1>
-                            <form action="/remove_widget" method="post" style="display: inline">
-                                <input hidden name="printer_name" value="{{ i.printer_name }}">
-                                <button style="float: right">X</button>
-                            </form>
+<!--                            <form action="/remove_widget" method="post" style="display: inline">-->
+<!--                                <input hidden name="printer_name" value="{{ i.printer_name }}">-->
+                                <button style="float: right" onclick="delete_widget('{{ i.printer_name }}')">X</button>
+<!--                            </form>-->
                             <p><strong>IP Address:</strong> {{ i.ip_address }}</p>
                         </div>
 
                         <div class="button_div">
-                            <button onclick="sendMessage('{{ i.printer_name }}_files')">Pause Printer</button>
-                            <button onclick="sendMessage('{{ i.printer_name }}_files')">Stop Printer</button>
+                            <button onclick="sendMessage({'{{ i.printer_name }}': {'func': 'pause', 'extra': ''}})">Pause Printer</button>
+                            <button onclick="sendMessage({'{{ i.printer_name }}': {'func': 'stop', 'extra': ''}})">Stop Printer</button>
                         </div>
                         <div>
                             <h3>Files available on Printer</h3>
@@ -59,9 +60,10 @@
                             </select>
 
                         </div>
+                        <div id="{{ i.printer_name }}_progressbar" class="pbar"><span></span></div>
                         <div class="button_div">
-                            <button onclick="sendMessage('{{ i.printer_name }}_files')">Refresh File List</button>
-                            <button>Start Print</button>
+                            <button onclick="sendMessage({'{{ i.printer_name }}': {'func': 'files', 'extra': ''}})">Refresh File List</button>
+                            <button onclick="sendMessage({'{{ i.printer_name }}': {'func': 'start', 'extra': $('#{{ i.printer_name }}_files').val()}})">Start Print</button>
                         </div>
                     </div>
                 </div>

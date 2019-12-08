@@ -66,7 +66,7 @@ button {
 .popuptext {
     visibility: hidden;
     background-color: #555;
-    color: #fff;
+    color: black;
     text-align: center;
     border-radius: 6px;
     padding: 1em;
@@ -82,8 +82,8 @@ button {
 /* Toggle this class when clicking on the popup container (hide and show the popup) */
 .show {
     visibility: visible;
-    -webkit-animation: fadeIn .5s;
-    animation: fadeIn .5s
+    /*-webkit-animation: fadeIn .5s;*/
+    /*animation: fadeIn .5s*/
 }
 
 /* Add animation (fade in the popup) */
@@ -112,4 +112,27 @@ button {
 .file_table, .file_table td {
     border: solid thin;
     border-collapse: collapse;
+}
+
+.pbar.ui-progressbar {
+    position: relative;
+    height: 2em;
+}
+
+.pbar span {
+    position: static;
+    text-align: center;
+    display: block;
+    line-height: 2em;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: bolder
+}
+
+.pbar[aria-valuenow="0"] span {
+    margin-top: 0;
+}
+
+.ui-progressbar .ui-progressbar-value {
+    margin: -2em 0
 }
