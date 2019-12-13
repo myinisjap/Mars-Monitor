@@ -8,7 +8,7 @@
 #
 # if __name__ == '__main__':
 #     unittest.main()
-from app import udp_connect
+from mars_monitor import udp_connect
 
 
 def test_udp_connect():

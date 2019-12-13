@@ -100,7 +100,6 @@ async def progress(ws):
         cfg = config_dict()
         for d in cfg:
             ip_address = d['ip_address']
-            print(d)
             resp = udp_connect(ip_address, "M27")
             if not resp['data']:
                 continue
@@ -115,10 +114,11 @@ async def progress(ws):
                 percent = int((int(div_numbers[0]) / int(div_numbers[1])) * 100)
                 display_text: str = f"{percent}%"
             try:
+                # print(d['printer_name'], percent, div_numbers)
                 await ws.send_json(
                     [{"id": f"{d['printer_name']}_progressbar", "text": display_text, "percent": percent}])
             except Exception as e:
-                print(f'BREAKING: {d}')
+                # print(f'BREAKING: {d}')
                 break
         await asyncio.sleep(5)
 
