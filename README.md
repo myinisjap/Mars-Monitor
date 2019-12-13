@@ -11,3 +11,5 @@ To use the application all you need to do is clone the repo and run
 After that just run app.py. I would recommend using a virtual environment but that is up to you.
 
 The app will be served at "localhost:8000".
+
+If there are specific features you would like to see feel free to ask for them and if I get time/ it's possible I will add in the feature.
