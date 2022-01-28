@@ -26,7 +26,8 @@ function delete_widget(printer_name) {
 }
 
 function create_widget(printer_name, ip_address) {
-    if (printer_name[0].value !== '' && ip_address[0].value !== '') {
+    const regex = new RegExp(/^((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])$/gm);
+    if (printer_name[0].value !== '' && regex.test(ip_address[0].value)) {
         $.post("/add_widget", {
             'printer_name': printer_name[0].value,
             'ip_address': ip_address[0].value
@@ -36,9 +37,11 @@ function create_widget(printer_name, ip_address) {
             }
         })
     } else {
+        console.log(regex.test(ip_address[0].value))
+        console.log(ip_address[0].value)
         if (printer_name[0].value === '') {
             $('[name="printer_name"]').css('background-color', 'red')
-        } else if (ip_address[0].value === '') {
+        } else if (!(regex.test(ip_address[0].value))) {
             $('[name="ip_address"]').css('background-color', 'red')
         }
     }
